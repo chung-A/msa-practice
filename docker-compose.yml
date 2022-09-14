@@ -1,0 +1,48 @@
+version: '3.4'
+
+services:
+  eureka:
+    build: ./eureka
+    ports:
+      - "8761:8761"
+    tty: true
+
+  gateway:
+    build: ./gateway
+    ports:
+      - "80:80"
+    depends_on:
+      - eureka
+
+#  user-db:
+#    image: mysql:8.0.30
+#    ports:
+#      - "3306:3306"
+#    environment:
+#      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+##      MYSQL_ROOT_PASSWORD: 0000
+##      MYSQL_DATABASE: user
+##      MYSQL_USER: ken
+##      MYSQL_PASSWORD: 0000
+#    command:
+#      - --character-set-server=utf8mb4
+#      - --collation-server=utf8mb4_unicode_ci
+#    tty: true
+#    volumes:
+#      - ./db:/var/lib/mysql
+
+  user1:
+    build: ./user-service
+    depends_on:
+      - eureka
+  user2:
+    build: ./user-service
+    depends_on:
+      - eureka
+
+  ecomerce:
+    build: ./ecomerce
+    ports:
+      - "9002:9002"
+    depends_on:
+      - eureka

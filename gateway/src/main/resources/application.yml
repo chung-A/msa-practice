@@ -1,0 +1,36 @@
+server:
+  port: 80
+
+spring:
+  application:
+    name: api-gateway
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    instance-id: ${spring.cloud.client.hostname}:${spring.application.instance_id:${random.value}}
+
+token:
+  expiration_time: 86400000
+  secret: user_token
+
+#spring:
+#  cloud:
+#    gateway:
+#      routes:
+#      - id: user-service
+#        uri: http://user:9001
+#        predicates:
+#          - Path=/user-service/**
+#        filters:
+#          - RewritePath=/user-service/?(?<segment>.*), /$\{segment}
+#      - id: e-comerce
+#        uri: http://ecomerce:9000
+#        predicates:
+#          - Path=/e-comerce/**
+#        filters:
+#          - RewritePath=/e-comerce/?(?<segment>.*), /$\{segment}
