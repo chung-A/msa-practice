@@ -34,6 +34,7 @@ class WebSecurityConfig(
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
             .authorizeHttpRequests()
+            .antMatchers("/actuator/**").permitAll()
             .antMatchers("/**/login").permitAll()
             .anyRequest().authenticated()
             .and()
